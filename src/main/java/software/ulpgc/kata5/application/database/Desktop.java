@@ -5,6 +5,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import software.ulpgc.kata5.architecture.io.Store;
 import software.ulpgc.kata5.architecture.model.Movie;
 import software.ulpgc.kata5.architecture.viewmodel.Histogram;
 import software.ulpgc.kata5.architecture.viewmodel.HistogramBuilder;
@@ -22,7 +23,7 @@ public class Desktop extends JFrame {
         this.setLocationRelativeTo(null);
     }
 
-    public static Desktop create(RemoteStore remoteStore) {
+    public static Desktop create(Store store) {
         return new Desktop();
     }
 

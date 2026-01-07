@@ -1,4 +1,4 @@
-package software.ulpgc.kata5.application;
+package software.ulpgc.kata5.application.database;
 
 import software.ulpgc.kata5.architecture.io.Store;
 import software.ulpgc.kata5.architecture.model.Movie;

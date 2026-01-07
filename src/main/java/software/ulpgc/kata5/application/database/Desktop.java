@@ -5,10 +5,13 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import software.ulpgc.kata5.architecture.model.Movie;
 import software.ulpgc.kata5.architecture.viewmodel.Histogram;
+import software.ulpgc.kata5.architecture.viewmodel.HistogramBuilder;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.stream.Stream;
 
 public class Desktop extends JFrame {
 
@@ -19,12 +22,12 @@ public class Desktop extends JFrame {
         this.setLocationRelativeTo(null);
     }
 
-    public static Desktop create() {
+    public static Desktop create(RemoteStore remoteStore) {
         return new Desktop();
     }
 
-    public Desktop display(Histogram histogram) {
-        this.getContentPane().add(chartPanelWith(histogram));
+    public Desktop display() {
+        this.getContentPane().add(chartPanelWith(histogram()));
         return this;
     }
 
@@ -51,5 +54,21 @@ public class Desktop extends JFrame {
         XYSeries series = new XYSeries(histogram.legend());
         for (int bin: histogram) series.add(bin, histogram.count(bin));
         return series;
+    }
+
+    private static Histogram histogram() {
+        return HistogramBuilder
+                .with(movies())
+                .title("Movies per year")
+                .x("Year")
+                .y("Count")
+                .legend("Movies")
+                .use(Movie::year);
+    }
+
+    private static Stream<Movie> movies() {
+        return new RemoteStore(TsvMovieParser::from)
+                .movies()
+                .limit(1000);
     }
 }
